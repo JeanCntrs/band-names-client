@@ -16,6 +16,22 @@ const App = () => {
     const [online, setOnline] = useState();
     const [bands, setBands] = useState([]);
 
+    const handleIncreaseVotes = id => {
+        socket.emit('increase-votes', id);
+    }
+
+    const handleRemoveBand = id => {
+        socket.emit('remove-band', id);
+    }
+
+    const handleChangeName = (id, newName) => {
+        socket.emit('change-name', { id, newName });
+    }
+
+    const handleAddBand = name => {
+        socket.emit('add-band', { name });
+    }
+
     useEffect(() => {
         setOnline(socket.connected);
     }, [socket])
@@ -54,10 +70,15 @@ const App = () => {
             <hr />
             <div className="row">
                 <div className="col-8">
-                    <BandList data={bands} />
+                    <BandList
+                        data={bands}
+                        handleRemoveBand={handleRemoveBand}
+                        handleChangeName={handleChangeName}
+                        handleIncreaseVotes={handleIncreaseVotes}
+                    />
                 </div>
                 <div className="col-4">
-                    <BandAdd />
+                    <BandAdd handleAddBand={handleAddBand} />
                 </div>
             </div>
         </div>

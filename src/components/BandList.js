@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';;
 
-const BandList = ({ data }) => {
+const BandList = ({ data, handleRemoveBand, handleChangeName, handleIncreaseVotes }) => {
     const [bands, setBands] = useState(data);
 
     const handleBandNameChange = (event, id) => {
@@ -16,7 +16,7 @@ const BandList = ({ data }) => {
     }
 
     const handleLostFocus = (id, name) => {
-        console.log(id, name)
+        handleChangeName(id, name);
     }
 
     const createRows = () => {
@@ -24,7 +24,10 @@ const BandList = ({ data }) => {
             bands.map(band => (
                 <tr key={band.id}>
                     <td>
-                        <button className="btn btn-primary">+1</button>
+                        <button
+                            className="btn btn-primary"
+                            onClick={() => handleIncreaseVotes(band.id)}
+                        >+1</button>
                     </td>
                     <td>
                         <input
@@ -38,7 +41,10 @@ const BandList = ({ data }) => {
                         <h3>{band.votes}</h3>
                     </td>
                     <td>
-                        <button className="btn btn-danger">Delete</button>
+                        <button
+                            className="btn btn-danger"
+                            onClick={() => handleRemoveBand(band.id)}
+                        >Delete</button>
                     </td>
                 </tr>
             ))
