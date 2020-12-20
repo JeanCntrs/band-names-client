@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import BandAdd from './components/BandAdd';
-import BandList from './components/BandList';
-import { useSocket } from './hooks/useSocket';
+import React, { useContext } from 'react';
+import { SocketContext } from '../context/SocketContext';
+import BandAdd from '../components/BandAdd';
+import BandList from '../components/BandList';
 
-const App = () => {
-    const [bands, setBands] = useState([]);
-    const { socket, online } = useSocket('http://localhost:8080');
+const HomePage = () => {
+    /* const [bands, setBands] = useState([]); */
+    const { online } = useContext(SocketContext);
 
-    const handleIncreaseVotes = id => {
+    /* const handleIncreaseVotes = id => {
         socket.emit('increase-votes', id);
     }
 
@@ -17,17 +17,13 @@ const App = () => {
 
     const handleChangeName = (id, newName) => {
         socket.emit('change-name', { id, newName });
-    }
+    } */
 
-    const handleAddBand = name => {
-        socket.emit('add-band', { name });
-    }
-
-    useEffect(() => {
+    /* useEffect(() => {
         socket.on('current-bands', bands => {
             setBands(bands);
         });
-    }, [socket]);
+    }, [socket]); */
 
     return (
         <div className="container">
@@ -45,19 +41,19 @@ const App = () => {
             <hr />
             <div className="row">
                 <div className="col-8">
-                    <BandList
+                    {/* <BandList
                         data={bands}
                         handleRemoveBand={handleRemoveBand}
                         handleChangeName={handleChangeName}
                         handleIncreaseVotes={handleIncreaseVotes}
-                    />
+                    /> */}
                 </div>
                 <div className="col-4">
-                    <BandAdd handleAddBand={handleAddBand} />
+                    {/* <BandAdd /> */}
                 </div>
             </div>
         </div>
     );
 }
 
-export default App;
+export default HomePage;
