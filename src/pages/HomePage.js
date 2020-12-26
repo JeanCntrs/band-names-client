@@ -2,28 +2,10 @@ import React, { useContext } from 'react';
 import { SocketContext } from '../context/SocketContext';
 import BandAdd from '../components/BandAdd';
 import BandList from '../components/BandList';
+import BandChart from '../components/BandChart';
 
 const HomePage = () => {
-    /* const [bands, setBands] = useState([]); */
     const { online } = useContext(SocketContext);
-
-    /* const handleIncreaseVotes = id => {
-        socket.emit('increase-votes', id);
-    }
-
-    const handleRemoveBand = id => {
-        socket.emit('remove-band', id);
-    }
-
-    const handleChangeName = (id, newName) => {
-        socket.emit('change-name', { id, newName });
-    } */
-
-    /* useEffect(() => {
-        socket.on('current-bands', bands => {
-            setBands(bands);
-        });
-    }, [socket]); */
 
     return (
         <div className="container">
@@ -38,18 +20,18 @@ const HomePage = () => {
                 </p>
             </div>
             <h1>Band Names</h1>
+            <div className="row">
+                <div className="col">
+                    <BandChart />
+                </div>
+            </div>
             <hr />
             <div className="row">
                 <div className="col-8">
-                    {/* <BandList
-                        data={bands}
-                        handleRemoveBand={handleRemoveBand}
-                        handleChangeName={handleChangeName}
-                        handleIncreaseVotes={handleIncreaseVotes}
-                    /> */}
+                    <BandList />
                 </div>
                 <div className="col-4">
-                    {/* <BandAdd /> */}
+                    <BandAdd />
                 </div>
             </div>
         </div>

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';;
+import React, { useContext, useState, useEffect } from 'react';
+import { SocketContext } from '../context/SocketContext';
 
-const BandList = ({ data, handleRemoveBand, handleChangeName, handleIncreaseVotes }) => {
-    const [bands, setBands] = useState(data);
+const BandList = () => {
+    const [bands, setBands] = useState([]);
+    const { socket } = useContext(SocketContext);
 
     const handleBandNameChange = (event, id) => {
         const newBandName = event.target.value;
@@ -15,9 +17,24 @@ const BandList = ({ data, handleRemoveBand, handleChangeName, handleIncreaseVote
         }));
     }
 
-    const handleLostFocus = (id, name) => {
-        handleChangeName(id, name);
+    const handleLostFocus = (id, newName) => {
+        socket.emit('change-name', { id, newName });
     }
+
+    const handleIncreaseVotes = id => {
+        socket.emit('increase-votes', id);
+    }
+
+    const handleRemoveBand = id => {
+        socket.emit('remove-band', id);
+    }
+
+    useEffect(() => {
+        socket.on('current-bands', bands => {
+            setBands(bands);
+        });
+        return () => socket.off('current-bands');
+    }, [socket]);
 
     const createRows = () => {
         return (
@@ -50,10 +67,6 @@ const BandList = ({ data, handleRemoveBand, handleChangeName, handleIncreaseVote
             ))
         );
     }
-
-    useEffect(() => {
-        setBands(data);
-    }, [data]);
 
     return (
         <>
